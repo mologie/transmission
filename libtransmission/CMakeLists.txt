@@ -171,6 +171,12 @@ set(${PROJECT_NAME}_PRIVATE_HEADERS
     webseed.h
 )
 
+if(WIN32)
+    set(${PROJECT_NAME}_MODULE_DEF transmission.def)
+else()
+    set(${PROJECT_NAME}_MODULE_DEF)
+endif()
+
 if(NOT ENABLE_UTP)
     set_source_files_properties(tr-utp.c PROPERTIES HEADER_FILE_ONLY ON)
 endif()
@@ -233,10 +239,17 @@ if(ENABLE_UTP)
     include_directories(${TP_TOP}/libutp)
 endif()
 
-add_library(${TR_NAME} STATIC
+if(SHARED_LIB)
+    set(${PROJECT_NAME}_TYPE SHARED)
+else()
+    set(${PROJECT_NAME}_TYPE STATIC)
+endif()
+
+add_library(${TR_NAME} ${${PROJECT_NAME}_TYPE}
     ${${PROJECT_NAME}_SOURCES}
     ${${PROJECT_NAME}_PUBLIC_HEADERS}
     ${${PROJECT_NAME}_PRIVATE_HEADERS}
+    ${${PROJECT_NAME}_MODULE_DEF}
 )
 
 foreach(UT ${EVENT2_UPSTREAM_TARGET}
@@ -314,6 +327,9 @@ if(ENABLE_TESTS)
 endif()
 
 if(INSTALL_LIB)
-    install(TARGETS ${TR_NAME} DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    install(TARGETS ${TR_NAME}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
     install(FILES ${${PROJECT_NAME}_PUBLIC_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${TR_NAME})
 endif()

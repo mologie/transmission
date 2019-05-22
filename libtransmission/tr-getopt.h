@@ -13,13 +13,15 @@ extern "C"
 {
 #endif
 
+#include "tr-macros.h"
+
 /**
  * @addtogroup utils Utilities
  * @{
  */
 
 /** @brief Similar to optind, this is the current index into argv */
-extern int tr_optind;
+extern TR_API int tr_optind;
 
 typedef struct tr_option
 {

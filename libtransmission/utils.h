@@ -18,6 +18,8 @@ extern "C"
 {
 #endif
 
+#include "tr-macros.h"
+
 /***
 ****
 ***/
@@ -371,9 +373,9 @@ void tr_formatter_speed_init(unsigned int kilo, char const* kb, char const* mb, 
 
 void tr_formatter_mem_init(unsigned int kilo, char const* kb, char const* mb, char const* gb, char const* tb);
 
-extern unsigned int tr_speed_K;
-extern unsigned int tr_mem_K;
-extern unsigned int tr_size_K;
+extern TR_API unsigned int tr_speed_K;
+extern TR_API unsigned int tr_mem_K;
+extern TR_API unsigned int tr_size_K;
 
 /* format a speed from KBps into a user-readable string. */
 char* tr_formatter_speed_KBps(char* buf, double KBps, size_t buflen);

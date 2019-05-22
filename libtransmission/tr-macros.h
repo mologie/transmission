@@ -164,3 +164,17 @@
 #define TR_INET6_ADDRSTRLEN 46
 
 #define TR_BAD_SIZE ((size_t)-1)
+
+/***
+****
+***/
+
+#ifdef _MSC_VER
+    #ifdef transmission_EXPORTS
+		#define TR_API __declspec(dllexport)
+    #else
+		#define TR_API __declspec(dllimport)
+	#endif
+#else
+	#define TR_API
+#endif
